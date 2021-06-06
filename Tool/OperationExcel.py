@@ -23,16 +23,18 @@ class rExcel:
     def getRowData(self, sheetObj):
         list_data = []
         for i in range(sheetObj.nrows):
-            list_data.append(sheetObj.row_values(i))
+            data = sheetObj.row_values(i)
+            # data = "".join(data)
+            list_data.append(data)
         return list_data
 
 
 class wExcle:
 
     # 新建文件
-    def creatExcel(self):
-        newwb = Workbook()
-        newwb.save('../result/植入单-中南大学湘雅三医院.xlsx')
+    def creatExcel(self, workName):
+        newwork = Workbook()
+        newwork.save(workName)
 
     # 打开文件
     def openExcel(self, path):
@@ -55,6 +57,10 @@ class wExcle:
         sheet = wbObj.active
         return sheet
 
+    # 写入数据
+    def wDataCell(self, sheet, row, column, data):
+        sheet.cell(row=row, column=column, value=data)
+
     # 创建模板表头
     def newRemplate(self, sheetobj):
         list_1 = ['序号', '手术日期', '患者姓名', '患者年龄', '住院号', '手术医师', '区', '床位号', '产品名称（实际使用）', '产品描述', '规格型号（实际使用）', '批号',
@@ -64,6 +70,11 @@ class wExcle:
         fille = styles.PatternFill("solid", fgColor="2894FF")
         for i in range(len(list_1)):
             sheetobj.cell(row=1, column=i + 1, value=list_1[i]).fill = fille
+
+    # 获取表头
+    def getExcelDataHead(self, sheetObj):
+        dataHead = sheetObj.rows
+        return dataHead
 
 
 if __name__ == '__main__':
